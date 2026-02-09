@@ -3,9 +3,9 @@ name: Deploy React App
 # 워크플로우가 실행되는 조건
 on:
   push:
-    branches: [main] # main브랜치에 push가 될 경우 실행
+    branches: [develop] # main브랜치에 push가 될 경우 실행
   pull_request:
-    branches: [main] # main브랜치에 pull_request가 되었을 경우 실행
+    branches: [develop] # main브랜치에 pull_request가 되었을 경우 실행
 
 # 내가 실행할 작업 정의
 jobs:
