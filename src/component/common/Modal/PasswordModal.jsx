@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import axios from "axios";
+import { authInstance } from "../../api/reqService";
 import { AuthContext } from "../../context/AuthContext";
 import * as S from './MemberModal.style';
 
@@ -7,7 +7,7 @@ import * as S from './MemberModal.style';
 export const ResetPasswordModal = ({ isOpen, onClose }) => {
   const { auth } = useContext(AuthContext);
   const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setnewPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState({
@@ -31,32 +31,33 @@ export const ResetPasswordModal = ({ isOpen, onClose }) => {
       return;
     }
 
-    axios
-      .put(
-        "http://localhost:8080/api/members",
-        {
-          currentPassword,
-          newPassword,
-          confirmPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-          },
-        }
-      )
+    // 비밀번호 유효성 검사 (백엔드와 동일한 패턴)
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+    if (!passwordRegex.test(newPassword)) {
+      alert('비밀번호는 8~20자의 영문, 숫자, 특수문자를 포함해야 합니다.');
+      return;
+    }
+
+    authInstance.put('/api/members', {
+      currentPassword,
+      newPassword,
+      confirmPassword
+    })
       .then((result) => {
         if (result.status === 200) {
-          alert("비밀번호 변경에 성공하셨습니다.");
+          alert("비밀번호 변경에 성공했습니다.");
           onClose();
           setCurrentPassword('');
-          setnewPassword('');
+          setNewPassword('');
           setConfirmPassword('');
           setError('');
         }
       })
       .catch((err) => {
-        const errorMessage = err?.response?.data["error-message"] || "비밀번호 변경 중 문제가 발생했습니다.";
+        console.error('비밀번호 변경 실패:', err);
+        const errorMessage = err?.response?.data?.message 
+          || err?.response?.data?.['error-message'] 
+          || "비밀번호 변경 중 문제가 발생했습니다.";
         setError(errorMessage);
         alert(errorMessage);
       });
@@ -100,7 +101,7 @@ export const ResetPasswordModal = ({ isOpen, onClose }) => {
                 name="newPassword"
                 placeholder="변경할 비밀번호를 입력해주세요."
                 value={newPassword}
-                onChange={(e) => setnewPassword(e.target.value)}
+                onChange={(e) => setNewPassword(e.target.value)}
                 $hasToggle
                 required
               />
@@ -111,6 +112,7 @@ export const ResetPasswordModal = ({ isOpen, onClose }) => {
                 {showPassword.newPassword ? '👁️' : '👁️‍🗨️'}
               </S.TogglePasswordButton>
             </S.InputWrapper>
+            <S.HelpText>8~20자의 영문, 숫자, 특수문자를 포함해야 합니다.</S.HelpText>
           </S.FormGroup>
           <S.FormGroup>
             <S.FormLabel>변경 비밀번호 확인</S.FormLabel>

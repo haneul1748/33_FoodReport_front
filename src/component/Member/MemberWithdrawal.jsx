@@ -55,7 +55,6 @@ const MemberWithdrawal = () => {
                 || err?.response?.data?.['error-message']
                 || '회원 탈퇴 중 문제가 발생했습니다.';
             alert(errorMessage);
-            console.error('회원 탈퇴 실패:', err);
         });
     };
 

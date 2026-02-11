@@ -31,11 +31,8 @@ export const RegisterOwnerModal = ({ isOpen, onClose }) => {
       status: 'Y'
     };
 
-    console.log('사장님 등록 요청:', requestData);
-
     authInstance.post('/api/members/owner', requestData)
       .then((res) => {
-        console.log('사장님 등록 성공:', res);
         alert('사장님 등록 신청이 완료되었습니다! 관리자 승인 후 이용 가능합니다.');
         onClose();
         // 입력 필드 초기화
@@ -44,7 +41,6 @@ export const RegisterOwnerModal = ({ isOpen, onClose }) => {
         setAddress('');
       })
       .catch((err) => {
-        console.error('사장님 등록 실패:', err);
         const errorMessage = err?.response?.data?.message 
           || err?.response?.data?.['error-message']
           || '사장님 등록에 실패했습니다.';

@@ -60,7 +60,6 @@ const MyInfo = () => {
                 setBioLength(data.introduce ? data.introduce.length : 0);
             })
             .catch((err) => {
-                console.error('회원 정보 조회 실패:', err);
                 if (err.response?.status === 401 || err.response?.status === 403) {
                     alert('인증이 만료되었습니다. 다시 로그인해주세요.');
                     localStorage.removeItem('accessToken');

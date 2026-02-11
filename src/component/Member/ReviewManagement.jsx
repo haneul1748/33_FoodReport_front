@@ -41,8 +41,6 @@ const ReviewManagement = () => {
                 }
             })
             .catch((err) => {
-                console.error('리뷰 조회 실패:', err);
-                console.error('에러 응답:', err.response);
                 if (err.response?.status === 401 || err.response?.status === 403) {
                     alert('인증이 만료되었습니다. 다시 로그인해주세요.');
                     navigate('/login');

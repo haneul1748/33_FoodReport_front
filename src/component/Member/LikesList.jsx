@@ -38,9 +38,7 @@ const LikesList = () => {
 
         authInstance.get(`/api/members/likes?${params.toString()}`)
             .then((res) => {
-                console.log('좋아요 목록 조회 응답:', res);
                 const data = res.data.data || res.data;
-                console.log('좋아요 데이터:', data);
 
                 // likeType에 따라 적절한 데이터 설정
                 let likesData = [];
@@ -69,7 +67,6 @@ const LikesList = () => {
                 }
             })
             .catch((err) => {
-                console.error('좋아요 목록 조회 실패:', err);
                 if (err.response?.status === 401 || err.response?.status === 403) {
                     alert('인증이 만료되었습니다. 다시 로그인해주세요.');
                     navigate('/login');
