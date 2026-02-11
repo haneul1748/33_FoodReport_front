@@ -79,9 +79,17 @@ const PlaceInsertForm = () => {
     const formData = new FormData();
     formData.append('placeTitle', title);
     formData.append('placeContent', content);
+    if(activeRegion?.regionNo) {
     formData.append('regionNo', activeRegion.regionNo);
+    }
+
+    if(activeTag && activeTag.length > 0) {
     activeTag.forEach(tag => formData.append('tagNums', tag.tagNo) );
+    }
+
+    if(images && images.length > 0) {
     images.forEach(file => formData.append('images', file));
+    }
 
     authInstance.post(`/api/places`, formData, {
       headers : {

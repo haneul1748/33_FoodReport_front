@@ -69,6 +69,11 @@ const PlaceDetail = () => {
 
         const handlePlaceLikeSave = () => {
             
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
+
             authInstance.post(`/api/places/${placeNo}/likes`)
                 .then((res) => {
                     showToast({message : res.data.message, type : 'success'});
@@ -80,6 +85,11 @@ const PlaceDetail = () => {
     
         const handlePlaceLikeDelete = () => {
             
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
+
             authInstance.delete(`/api/places/${placeNo}/likes`)
                 .then((res) => {
                     showToast({message : res.data.message, type : 'success'});
@@ -170,6 +180,11 @@ const PlaceDetail = () => {
 
         const handleReplyLikeSave = ( replyNo ) => {
     
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
+
             authInstance.post(`/api/places/replies/${replyNo}/likes`)
                 .then((res) => {
                     showToast({message : res.data.message, type : 'success'});
@@ -181,7 +196,11 @@ const PlaceDetail = () => {
         }
     
         const handleReplyLikeDelete = ( replyNo ) => {
-    
+
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
             authInstance.delete(`/api/places/replies/${replyNo}/likes`)
                 .then((res) => {
                     showToast({message : res.data.message, type : 'success'});

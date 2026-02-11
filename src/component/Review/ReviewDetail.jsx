@@ -144,7 +144,12 @@ const ReviewDetail = () => {
     }
 
     const handleReviewLikeSave = () => {
-        
+
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
+
         authInstance.post(`/api/reviews/${reviewNo}/likes`)
             .then((res) => {
                 showToast({message : res.data.message, type : 'success'});
@@ -156,6 +161,11 @@ const ReviewDetail = () => {
 
     const handleReviewLikeDelete = () => {
         
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
+
         authInstance.delete(`/api/reviews/${reviewNo}/likes`)
             .then((res) => {
                 showToast({message : res.data.message, type : 'success'});
@@ -166,6 +176,11 @@ const ReviewDetail = () => {
     }
 
     const handleReplyLikeSave = ( replyNo ) => {
+
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
 
         authInstance.post(`/api/reviews/replies/${replyNo}/likes`)
             .then((res) => {
@@ -178,6 +193,11 @@ const ReviewDetail = () => {
     }
 
     const handleReplyLikeDelete = ( replyNo ) => {
+
+        if(!auth.isAuthenticated){
+            showToast({message : '로그인 후 진행해주세요!'});
+            return;
+        }
 
         authInstance.delete(`/api/reviews/replies/${replyNo}/likes`)
             .then((res) => {
